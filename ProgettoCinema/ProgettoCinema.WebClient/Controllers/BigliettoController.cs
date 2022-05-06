@@ -9,24 +9,25 @@ using Microsoft.EntityFrameworkCore;
 using ProgettoCinema.ClientWeb.Data;
 using ProgettoCinema.Domain;
 
-namespace ProgettoCinema.WebClient.Controller
+namespace ProgettoCinema.WebClient.Controllers
 {
-    public class SpettatoreController : Microsoft.AspNetCore.Mvc.Controller
+    public class BigliettoController : Controller
     {
         private readonly CinemaDbContext _context;
 
-        public SpettatoreController(CinemaDbContext context)
+        public BigliettoController(CinemaDbContext context)
         {
             _context = context;
         }
 
-        // GET: Spettatore
+        // GET: Biglietto
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Persons.ToListAsync());
+            var cinemaDbContext = _context.Tickets.Include(b => b.CinemaRoom).Include(b => b.Person);
+            return View(await cinemaDbContext.ToListAsync());
         }
 
-        // GET: Spettatore/Details/5
+        // GET: Biglietto/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,39 +35,45 @@ namespace ProgettoCinema.WebClient.Controller
                 return NotFound();
             }
 
-            var spettatore = await _context.Persons
+            var biglietto = await _context.Tickets
+                .Include(b => b.CinemaRoom)
+                .Include(b => b.Person)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (spettatore == null)
+            if (biglietto == null)
             {
                 return NotFound();
             }
 
-            return View(spettatore);
+            return View(biglietto);
         }
 
-        // GET: Spettatore/Create
+        // GET: Biglietto/Create
         public IActionResult Create()
         {
+            ViewData["CinemaRoomId"] = new SelectList(_context.CinemaRooms, "Id", "Name");
+            ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "Name");
             return View();
         }
 
-        // POST: Spettatore/Create
+        // POST: Biglietto/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Surname,Birthdate,TicketId,OverSeventyYear,UnderFiveYear,Id")] Spettatore spettatore)
+        public async Task<IActionResult> Create([Bind("Seat,Price,CinemaRoomId,PersonId,Id")] Biglietto biglietto)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(spettatore);
+                _context.Add(biglietto);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(spettatore);
+            ViewData["CinemaRoomId"] = new SelectList(_context.CinemaRooms, "Id", "Name", biglietto.CinemaRoomId);
+            ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "Name", biglietto.PersonId);
+            return View(biglietto);
         }
 
-        // GET: Spettatore/Edit/5
+        // GET: Biglietto/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -74,22 +81,24 @@ namespace ProgettoCinema.WebClient.Controller
                 return NotFound();
             }
 
-            var spettatore = await _context.Persons.FindAsync(id);
-            if (spettatore == null)
+            var biglietto = await _context.Tickets.FindAsync(id);
+            if (biglietto == null)
             {
                 return NotFound();
             }
-            return View(spettatore);
+            ViewData["CinemaRoomId"] = new SelectList(_context.CinemaRooms, "Id", "Name", biglietto.CinemaRoomId);
+            ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "Name", biglietto.PersonId);
+            return View(biglietto);
         }
 
-        // POST: Spettatore/Edit/5
+        // POST: Biglietto/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,Surname,Birthdate,TicketId,OverSeventyYear,UnderFiveYear,Id")] Spettatore spettatore)
+        public async Task<IActionResult> Edit(int id, [Bind("Seat,Price,CinemaRoomId,PersonId,Id")] Biglietto biglietto)
         {
-            if (id != spettatore.Id)
+            if (id != biglietto.Id)
             {
                 return NotFound();
             }
@@ -98,12 +107,12 @@ namespace ProgettoCinema.WebClient.Controller
             {
                 try
                 {
-                    _context.Update(spettatore);
+                    _context.Update(biglietto);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SpettatoreExists(spettatore.Id))
+                    if (!BigliettoExists(biglietto.Id))
                     {
                         return NotFound();
                     }
@@ -114,10 +123,12 @@ namespace ProgettoCinema.WebClient.Controller
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(spettatore);
+            ViewData["CinemaRoomId"] = new SelectList(_context.CinemaRooms, "Id", "Name", biglietto.CinemaRoomId);
+            ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "Name", biglietto.PersonId);
+            return View(biglietto);
         }
 
-        // GET: Spettatore/Delete/5
+        // GET: Biglietto/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,30 +136,32 @@ namespace ProgettoCinema.WebClient.Controller
                 return NotFound();
             }
 
-            var spettatore = await _context.Persons
+            var biglietto = await _context.Tickets
+                .Include(b => b.CinemaRoom)
+                .Include(b => b.Person)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (spettatore == null)
+            if (biglietto == null)
             {
                 return NotFound();
             }
 
-            return View(spettatore);
+            return View(biglietto);
         }
 
-        // POST: Spettatore/Delete/5
+        // POST: Biglietto/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var spettatore = await _context.Persons.FindAsync(id);
-            _context.Persons.Remove(spettatore);
+            var biglietto = await _context.Tickets.FindAsync(id);
+            _context.Tickets.Remove(biglietto);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool SpettatoreExists(int id)
+        private bool BigliettoExists(int id)
         {
-            return _context.Persons.Any(e => e.Id == id);
+            return _context.Tickets.Any(e => e.Id == id);
         }
     }
 }

@@ -9,24 +9,24 @@ using Microsoft.EntityFrameworkCore;
 using ProgettoCinema.ClientWeb.Data;
 using ProgettoCinema.Domain;
 
-namespace ProgettoCinema.WebClient.Controller
+namespace ProgettoCinema.WebClient.Controllers
 {
-    public class GenereFilmController : Microsoft.AspNetCore.Mvc.Controller
+    public class SpettatoreController : Controller
     {
         private readonly CinemaDbContext _context;
 
-        public GenereFilmController(CinemaDbContext context)
+        public SpettatoreController(CinemaDbContext context)
         {
             _context = context;
         }
 
-        // GET: GenereFilm
+        // GET: Spettatore
         public async Task<IActionResult> Index()
         {
-            return View(await _context.GenereFilms.ToListAsync());
+            return View(await _context.Persons.ToListAsync());
         }
 
-        // GET: GenereFilm/Details/5
+        // GET: Spettatore/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,39 +34,39 @@ namespace ProgettoCinema.WebClient.Controller
                 return NotFound();
             }
 
-            var genereFilm = await _context.GenereFilms
+            var spettatore = await _context.Persons
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (genereFilm == null)
+            if (spettatore == null)
             {
                 return NotFound();
             }
 
-            return View(genereFilm);
+            return View(spettatore);
         }
 
-        // GET: GenereFilm/Create
+        // GET: Spettatore/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: GenereFilm/Create
+        // POST: Spettatore/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FilmGenre,Id")] GenereFilm genereFilm)
+        public async Task<IActionResult> Create([Bind("Name,Surname,Birthdate,Id")] Spettatore spettatore)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(genereFilm);
+                _context.Add(spettatore);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(genereFilm);
+            return View(spettatore);
         }
 
-        // GET: GenereFilm/Edit/5
+        // GET: Spettatore/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -74,22 +74,22 @@ namespace ProgettoCinema.WebClient.Controller
                 return NotFound();
             }
 
-            var genereFilm = await _context.GenereFilms.FindAsync(id);
-            if (genereFilm == null)
+            var spettatore = await _context.Persons.FindAsync(id);
+            if (spettatore == null)
             {
                 return NotFound();
             }
-            return View(genereFilm);
+            return View(spettatore);
         }
 
-        // POST: GenereFilm/Edit/5
+        // POST: Spettatore/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("FilmGenre,Id")] GenereFilm genereFilm)
+        public async Task<IActionResult> Edit(int id, [Bind("Name,Surname,Birthdate,TicketId,OverSeventyYear,UnderFiveYear,Id")] Spettatore spettatore)
         {
-            if (id != genereFilm.Id)
+            if (id != spettatore.Id)
             {
                 return NotFound();
             }
@@ -98,12 +98,12 @@ namespace ProgettoCinema.WebClient.Controller
             {
                 try
                 {
-                    _context.Update(genereFilm);
+                    _context.Update(spettatore);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GenereFilmExists(genereFilm.Id))
+                    if (!SpettatoreExists(spettatore.Id))
                     {
                         return NotFound();
                     }
@@ -114,10 +114,10 @@ namespace ProgettoCinema.WebClient.Controller
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(genereFilm);
+            return View(spettatore);
         }
 
-        // GET: GenereFilm/Delete/5
+        // GET: Spettatore/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,30 +125,30 @@ namespace ProgettoCinema.WebClient.Controller
                 return NotFound();
             }
 
-            var genereFilm = await _context.GenereFilms
+            var spettatore = await _context.Persons
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (genereFilm == null)
+            if (spettatore == null)
             {
                 return NotFound();
             }
 
-            return View(genereFilm);
+            return View(spettatore);
         }
 
-        // POST: GenereFilm/Delete/5
+        // POST: Spettatore/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var genereFilm = await _context.GenereFilms.FindAsync(id);
-            _context.GenereFilms.Remove(genereFilm);
+            var spettatore = await _context.Persons.FindAsync(id);
+            _context.Persons.Remove(spettatore);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool GenereFilmExists(int id)
+        private bool SpettatoreExists(int id)
         {
-            return _context.GenereFilms.Any(e => e.Id == id);
+            return _context.Persons.Any(e => e.Id == id);
         }
     }
 }

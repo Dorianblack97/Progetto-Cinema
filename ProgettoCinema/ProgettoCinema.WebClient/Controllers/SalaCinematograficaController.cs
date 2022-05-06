@@ -9,9 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using ProgettoCinema.ClientWeb.Data;
 using ProgettoCinema.Domain;
 
-namespace ProgettoCinema.WebClient.Controller
+namespace ProgettoCinema.WebClient.Controllers
 {
-    public class SalaCinematograficaController : Microsoft.AspNetCore.Mvc.Controller
+    public class SalaCinematograficaController : Controller
     {
         private readonly CinemaDbContext _context;
 

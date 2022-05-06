@@ -10,7 +10,7 @@ public class Spettatore : BaseDomain
     public string Name { get; set; }
     public string Surname { get; set; }
     public DateTime Birthdate { get; set; }
-    public int TicketId { get; set; }
+    public int? TicketId { get; set; } = null;
     private bool overSeventyYear { get; set; }
     public bool OverSeventyYear
     {
@@ -24,7 +24,7 @@ public class Spettatore : BaseDomain
         set => underFiveYear = IsUnderFiveYear();
     }
 
-    public Biglietto Ticket { get; set; }
+    public Biglietto? Ticket { get; set; } = null;
 
     private bool IsUnderFiveYear()
     {

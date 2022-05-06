@@ -16,7 +16,7 @@ namespace ProgettoCinema.WebClient.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Profit = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    Profit = table.Column<float>(type: "real", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -45,7 +45,7 @@ namespace ProgettoCinema.WebClient.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Surname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Birthdate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TicketId = table.Column<int>(type: "int", nullable: false),
+                    TicketId = table.Column<int>(type: "int", nullable: true),
                     OverSeventyYear = table.Column<bool>(type: "bit", nullable: false),
                     UnderFiveYear = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -63,7 +63,7 @@ namespace ProgettoCinema.WebClient.Migrations
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Author = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Producer = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CinemaRoomId = table.Column<int>(type: "int", nullable: false),
+                    CinemaRoomId = table.Column<int>(type: "int", nullable: true),
                     FilmGenreId = table.Column<int>(type: "int", nullable: false),
                     Duration = table.Column<int>(type: "int", nullable: false)
                 },
@@ -86,8 +86,9 @@ namespace ProgettoCinema.WebClient.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RoomCapacity = table.Column<byte>(type: "tinyint", nullable: false),
                     OccupiedSeats = table.Column<byte>(type: "tinyint", nullable: false),
+                    Profit = table.Column<float>(type: "real", nullable: false),
                     CinemaId = table.Column<int>(type: "int", nullable: false),
-                    FilmId = table.Column<int>(type: "int", nullable: false)
+                    FilmId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -111,7 +112,7 @@ namespace ProgettoCinema.WebClient.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Seat = table.Column<int>(type: "int", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Price = table.Column<float>(type: "real", nullable: false),
                     CinemaRoomId = table.Column<int>(type: "int", nullable: false),
                     PersonId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -153,8 +154,7 @@ namespace ProgettoCinema.WebClient.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Tickets_PersonId",
                 table: "Tickets",
-                column: "PersonId",
-                unique: true);
+                column: "PersonId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

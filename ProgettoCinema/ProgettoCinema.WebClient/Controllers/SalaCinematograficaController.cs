@@ -67,6 +67,7 @@ namespace ProgettoCinema.WebClient.Controllers
         {
             if (ModelState.IsValid)
             {
+                salaCinematografica.Tickets = _context.Tickets.Where(t => t.CinemaRoomId == salaCinematografica.Id).ToList();
                 _context.Add(salaCinematografica);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -110,7 +111,8 @@ namespace ProgettoCinema.WebClient.Controllers
             {
                 try
                 {
-                    _context.Update(salaCinematografica);
+                salaCinematografica.Tickets = _context.Tickets.Where(t => t.CinemaRoomId == salaCinematografica.Id).ToList();
+                _context.Update(salaCinematografica);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

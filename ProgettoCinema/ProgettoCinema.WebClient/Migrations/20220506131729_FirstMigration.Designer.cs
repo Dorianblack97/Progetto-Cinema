@@ -12,8 +12,8 @@ using ProgettoCinema.ClientWeb.Data;
 namespace ProgettoCinema.WebClient.Migrations
 {
     [DbContext(typeof(CinemaDbContext))]
-    [Migration("20220506125201_fixTicketsToPerson")]
-    partial class fixTicketsToPerson
+    [Migration("20220506131729_FirstMigration")]
+    partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -38,8 +38,8 @@ namespace ProgettoCinema.WebClient.Migrations
                     b.Property<int>("PersonId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<float>("Price")
+                        .HasColumnType("real");
 
                     b.Property<int>("Seat")
                         .HasColumnType("int");
@@ -65,8 +65,8 @@ namespace ProgettoCinema.WebClient.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Profit")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<float>("Profit")
+                        .HasColumnType("real");
 
                     b.HasKey("Id");
 
@@ -146,6 +146,9 @@ namespace ProgettoCinema.WebClient.Migrations
 
                     b.Property<byte>("OccupiedSeats")
                         .HasColumnType("tinyint");
+
+                    b.Property<float>("Profit")
+                        .HasColumnType("real");
 
                     b.Property<byte>("RoomCapacity")
                         .HasColumnType("tinyint");

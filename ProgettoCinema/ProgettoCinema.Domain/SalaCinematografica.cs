@@ -24,9 +24,12 @@ public class SalaCinematografica : BaseDomain
     private float CalculateProfit()
     {
         var profit = 0f;
-        foreach (var ticket in Tickets)
+        if (Tickets is not null)
         {
-            profit += ticket.Price;
+            foreach (var ticket in Tickets)
+            {
+                profit += ticket.Price;
+            }
         }
         return profit;
     }

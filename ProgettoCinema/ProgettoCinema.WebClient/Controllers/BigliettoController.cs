@@ -171,7 +171,7 @@ namespace ProgettoCinema.WebClient.Controllers
             var discount = 1f;
             if (person.OverSeventyYear)
             {
-                discount = 0.10f;
+                discount = 0.90f;
                 return discount;
             }
             if (person.UnderFiveYear)

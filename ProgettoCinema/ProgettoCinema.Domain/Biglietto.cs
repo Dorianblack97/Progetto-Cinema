@@ -12,7 +12,10 @@ public class Biglietto : BaseDomain
     public decimal Price { get => price;
         set => price = value * Discount();
     }
+    public int CinemaRoomId { get; set; }
+    public int PersonId { get; set; }
     public Spettatore Person { get; set; }
+    public SalaCinematografica CinemaRoom { get; set; }
 
     private decimal Discount()
     {

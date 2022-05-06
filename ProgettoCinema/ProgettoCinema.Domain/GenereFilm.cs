@@ -9,4 +9,5 @@ namespace ProgettoCinema.Domain;
 public class GenereFilm : BaseDomain
 {
     public string FilmGenre { get; set; }
+    public ICollection<Film> Films { get; set; }
 }

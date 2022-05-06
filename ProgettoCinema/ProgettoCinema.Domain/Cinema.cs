@@ -9,5 +9,5 @@ public class Cinema : BaseDomain
 {
     public string Name { get; set; }
     public decimal Profit { get; set; }
-    public ICollection<SalaCinematografica> Cinemas { get; set; }
+    public ICollection<SalaCinematografica> CinemaRooms { get; set; }
 }

@@ -80,6 +80,10 @@ public class CinemaDbContext : DbContext
             .WithMany(f => f.CinemaRooms)
             .OnDelete(DeleteBehavior.NoAction)
             .HasForeignKey(cr => cr.FilmId);
+        cinemaRoom
+            .HasMany(cr => cr.Tickets)
+            .WithOne(t => t.CinemaRoom)
+            .OnDelete(DeleteBehavior.NoAction);
 
         var person = modelBuilder.Entity<Spettatore>();
         person.HasKey(p => p.Id);

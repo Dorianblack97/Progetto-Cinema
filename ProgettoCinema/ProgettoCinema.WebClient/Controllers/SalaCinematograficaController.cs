@@ -26,7 +26,8 @@ namespace ProgettoCinema.WebClient.Controllers
             var cinemaDbContext = _context.CinemaRooms.Include(s => s.Cinema)
                                                                                             .Include(s => s.Film)
                                                                                             .Include(s => s.Tickets);
-            return View(await cinemaDbContext.ToListAsync());
+            var result = await cinemaDbContext.ToListAsync();
+            return View(result);
         }
 
         // GET: SalaCinematografica/Details/5

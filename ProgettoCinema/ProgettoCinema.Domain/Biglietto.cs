@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,27 +10,13 @@ public class Biglietto : BaseDomain
 {
     public int Seat { get; set; }
     private decimal price { get; set; }
-    public decimal Price { get => price;
-        set => price = value * Discount();
-    }
+    public decimal Price { get; set; }
+    [Display(Name = "Sala")]
     public int CinemaRoomId { get; set; }
+    [Display(Name = "Spettatore")]
     public int PersonId { get; set; }
-    public Spettatore Person { get; set; }
-    public SalaCinematografica CinemaRoom { get; set; }
 
-    private decimal Discount()
-    {
-        var discount = 1m;
-        if (Person.OverSeventyYear)
-        {
-            discount = 0.10m;
-            return discount;
-        }
-        if (Person.UnderFiveYear)
-        {
-            discount = 0.50m;
-            return discount;
-        }
-        return discount;
-    }
+    public Spettatore? Person { get; set; } = default;
+    public SalaCinematografica? CinemaRoom { get; set; } = default;
+
 }

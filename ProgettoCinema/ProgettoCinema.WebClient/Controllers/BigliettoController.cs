@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -64,6 +65,8 @@ namespace ProgettoCinema.WebClient.Controllers
         {
             if (ModelState.IsValid)
             {
+                biglietto.Person = _context.Persons.Find(biglietto.PersonId);
+                biglietto.Price *= Discount(biglietto.Person);
                 _context.Add(biglietto);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -162,6 +165,21 @@ namespace ProgettoCinema.WebClient.Controllers
         private bool BigliettoExists(int id)
         {
             return _context.Tickets.Any(e => e.Id == id);
+        }
+        private decimal Discount(Spettatore person)
+        {
+            var discount = 1m;
+            if (person.OverSeventyYear)
+            {
+                discount = 0.10m;
+                return discount;
+            }
+            if (person.UnderFiveYear)
+            {
+                discount = 0.50m;
+                return discount;
+            }
+            return discount;
         }
     }
 }

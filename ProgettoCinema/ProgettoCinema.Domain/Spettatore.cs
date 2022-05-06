@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,8 @@ public class Spettatore : BaseDomain
     public string Name { get; set; }
     public string Surname { get; set; }
     public DateTime Birthdate { get; set; }
-    public int? TicketId { get; set; } = null;
+    [Display(Name = "Ticket")]
+    public int? TicketId { get; set; } = default;
     private bool overSeventyYear { get; set; }
     public bool OverSeventyYear
     {
@@ -24,7 +26,7 @@ public class Spettatore : BaseDomain
         set => underFiveYear = IsUnderFiveYear();
     }
 
-    public Biglietto? Ticket { get; set; } = null;
+    public ICollection<Biglietto>? Ticket { get; set; } = default;
 
     private bool IsUnderFiveYear()
     {

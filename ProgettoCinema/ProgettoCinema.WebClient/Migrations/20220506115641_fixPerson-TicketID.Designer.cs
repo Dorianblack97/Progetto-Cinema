@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProgettoCinema.ClientWeb.Data;
 
@@ -11,9 +12,10 @@ using ProgettoCinema.ClientWeb.Data;
 namespace ProgettoCinema.WebClient.Migrations
 {
     [DbContext(typeof(CinemaDbContext))]
-    partial class CinemaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220506115641_fixPerson-TicketID")]
+    partial class fixPersonTicketID
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,7 +48,8 @@ namespace ProgettoCinema.WebClient.Migrations
 
                     b.HasIndex("CinemaRoomId");
 
-                    b.HasIndex("PersonId");
+                    b.HasIndex("PersonId")
+                        .IsUnique();
 
                     b.ToTable("Tickets");
                 });
@@ -83,7 +86,7 @@ namespace ProgettoCinema.WebClient.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CinemaRoomId")
+                    b.Property<int>("CinemaRoomId")
                         .HasColumnType("int");
 
                     b.Property<int>("Duration")
@@ -135,7 +138,7 @@ namespace ProgettoCinema.WebClient.Migrations
                     b.Property<int>("CinemaId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("FilmId")
+                    b.Property<int>("FilmId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -199,8 +202,8 @@ namespace ProgettoCinema.WebClient.Migrations
                         .IsRequired();
 
                     b.HasOne("ProgettoCinema.Domain.Spettatore", "Person")
-                        .WithMany("Ticket")
-                        .HasForeignKey("PersonId")
+                        .WithOne("Ticket")
+                        .HasForeignKey("ProgettoCinema.Domain.Biglietto", "PersonId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -231,7 +234,8 @@ namespace ProgettoCinema.WebClient.Migrations
                     b.HasOne("ProgettoCinema.Domain.Film", "Film")
                         .WithMany("CinemaRooms")
                         .HasForeignKey("FilmId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("Cinema");
 

@@ -23,12 +23,14 @@ public class CinemaDbContext : DbContext
         ticket.HasKey(t => t.Id);
         ticket.Property(t => t.Price).IsRequired();
         ticket.Property(t => t.Seat).IsRequired();
+        ticket.Property(t => t.CinemaRoomId).IsRequired();
+        ticket.Property(t => t.PersonId).IsRequired();
 
         ticket
             .HasOne(t => t.Person)
-            .WithOne(p => p.Ticket)
+            .WithMany(p => p.Ticket)
             .OnDelete(DeleteBehavior.NoAction)
-            .HasForeignKey<Biglietto>(t => t.PersonId);
+            .HasForeignKey(t => t.PersonId);
         ticket
             .HasOne(t => t.CinemaRoom)
             .WithMany(cr => cr.Tickets)
@@ -47,7 +49,7 @@ public class CinemaDbContext : DbContext
         film.Property(f => f.Author).IsRequired();
         film.Property(f => f.Producer).IsRequired();
         film.Property(f => f.FilmGenreId).IsRequired();
-        film.Property(f => f.CinemaRoomId).IsRequired();
+        film.Property(f => f.CinemaRoomId);
         
         film
             .HasOne(f => f.FilmGenre)
@@ -65,6 +67,7 @@ public class CinemaDbContext : DbContext
         cinemaRoom.Property(cr => cr.CinemaId).IsRequired();
         cinemaRoom.Property(cr => cr.RoomCapacity).IsRequired();
         cinemaRoom.Property(cr => cr.OccupiedSeats);
+        cinemaRoom.Property(cr => cr.FilmId);
 
         cinemaRoom
             .HasOne(cr => cr.Cinema)
@@ -84,6 +87,6 @@ public class CinemaDbContext : DbContext
         person.Property(p => p.Birthdate).IsRequired();
         person.Property(p => p.OverSeventyYear).IsRequired();
         person.Property(p => p.UnderFiveYear).IsRequired();
-        person.Property(p => p.TicketId).IsRequired();
+        person.Property(p => p.TicketId);
     }
 }

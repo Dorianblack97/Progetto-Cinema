@@ -24,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ProgettoCinema.API\ProgettoCinema.API.csproj" />
     <ProjectReference Include="..\ProgettoCinema.Domain\ProgettoCinema.Domain.csproj" />
   </ItemGroup>
 

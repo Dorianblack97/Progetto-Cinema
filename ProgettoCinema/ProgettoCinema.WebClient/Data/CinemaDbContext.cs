@@ -68,6 +68,7 @@ public class CinemaDbContext : DbContext
         cinemaRoom.Property(cr => cr.RoomCapacity).IsRequired();
         cinemaRoom.Property(cr => cr.OccupiedSeats);
         cinemaRoom.Property(cr => cr.FilmId);
+        cinemaRoom.Property(cr => cr.Profit);
 
         cinemaRoom
             .HasOne(cr => cr.Cinema)

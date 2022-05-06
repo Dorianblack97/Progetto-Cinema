@@ -11,6 +11,8 @@ public class SalaCinematografica : BaseDomain
     public string Name { get; set; }
     public byte RoomCapacity { get; set; }
     public byte OccupiedSeats { get; set; }
+    private float profit { get; set; }
+    public float Profit { get => profit; set => profit = CalculateProfit(); }
     [Display(Name = "Cinema")]
     public int CinemaId { get; set; }
     [Display(Name = "Film")]
@@ -18,4 +20,14 @@ public class SalaCinematografica : BaseDomain
     public Film? Film { get; set; } = default;
     public Cinema? Cinema { get; set; } = default;
     public ICollection<Biglietto>? Tickets { get; set; } = default;
+
+    private float CalculateProfit()
+    {
+        var profit = 0f;
+        foreach (var ticket in Tickets)
+        {
+            profit += ticket.Price;
+        }
+        return profit;
+    }
 }

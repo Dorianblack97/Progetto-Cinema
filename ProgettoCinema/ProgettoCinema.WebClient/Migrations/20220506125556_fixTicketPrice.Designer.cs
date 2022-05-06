@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProgettoCinema.ClientWeb.Data;
 
@@ -11,9 +12,10 @@ using ProgettoCinema.ClientWeb.Data;
 namespace ProgettoCinema.WebClient.Migrations
 {
     [DbContext(typeof(CinemaDbContext))]
-    partial class CinemaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220506125556_fixTicketPrice")]
+    partial class fixTicketPrice
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,8 +65,8 @@ namespace ProgettoCinema.WebClient.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<float>("Profit")
-                        .HasColumnType("real");
+                    b.Property<decimal>("Profit")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -144,9 +146,6 @@ namespace ProgettoCinema.WebClient.Migrations
 
                     b.Property<byte>("OccupiedSeats")
                         .HasColumnType("tinyint");
-
-                    b.Property<float>("Profit")
-                        .HasColumnType("real");
 
                     b.Property<byte>("RoomCapacity")
                         .HasColumnType("tinyint");

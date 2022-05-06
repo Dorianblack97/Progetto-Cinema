@@ -8,6 +8,6 @@ namespace ProgettoCinema.Domain;
 public class Cinema : BaseDomain
 {
     public string Name { get; set; }
-    public decimal Profit { get; set; } = default;
+    public float Profit { get; set; } = default;
     public ICollection<SalaCinematografica>? CinemaRooms { get; set; } = default;
 }

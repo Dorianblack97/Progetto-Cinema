@@ -9,8 +9,8 @@ namespace ProgettoCinema.Domain;
 public class Biglietto : BaseDomain
 {
     public int Seat { get; set; }
-    private decimal price { get; set; }
-    public decimal Price { get; set; }
+    private float price { get; set; }
+    public float Price { get; set; }
     [Display(Name = "Sala")]
     public int CinemaRoomId { get; set; }
     [Display(Name = "Spettatore")]

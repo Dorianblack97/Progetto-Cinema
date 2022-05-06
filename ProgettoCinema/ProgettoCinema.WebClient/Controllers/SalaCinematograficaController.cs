@@ -23,7 +23,9 @@ namespace ProgettoCinema.WebClient.Controllers
         // GET: SalaCinematografica
         public async Task<IActionResult> Index()
         {
-            var cinemaDbContext = _context.CinemaRooms.Include(s => s.Cinema).Include(s => s.Film);
+            var cinemaDbContext = _context.CinemaRooms.Include(s => s.Cinema)
+                                                                                            .Include(s => s.Film)
+                                                                                            .Include(s => s.Tickets);
             return View(await cinemaDbContext.ToListAsync());
         }
 
@@ -38,6 +40,7 @@ namespace ProgettoCinema.WebClient.Controllers
             var salaCinematografica = await _context.CinemaRooms
                 .Include(s => s.Cinema)
                 .Include(s => s.Film)
+                .Include(s => s.Tickets)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (salaCinematografica == null)
             {

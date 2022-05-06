@@ -166,17 +166,17 @@ namespace ProgettoCinema.WebClient.Controllers
         {
             return _context.Tickets.Any(e => e.Id == id);
         }
-        private decimal Discount(Spettatore person)
+        private float Discount(Spettatore person)
         {
-            var discount = 1m;
+            var discount = 1f;
             if (person.OverSeventyYear)
             {
-                discount = 0.10m;
+                discount = 0.10f;
                 return discount;
             }
             if (person.UnderFiveYear)
             {
-                discount = 0.50m;
+                discount = 0.50f;
                 return discount;
             }
             return discount;
